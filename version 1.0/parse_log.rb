@@ -83,6 +83,6 @@ class ParseLog
 end
 # Call
 parse_log = ParseLog.new
-data = parse_log.read_file "data/sample.log"
+data = parse_log.read_file "../data/sample.log"
 parse_log.calculation data
 parse_log.result

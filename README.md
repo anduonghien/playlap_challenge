@@ -7,7 +7,17 @@ A slution read file log for Playlab challenge.
 ```shell
 $ git clone git@github.com:dhienan/playlap_challenge.git
 $ cd playlap_challenge
-$ ruby parse_log.rb
+```
+### Run it
+
+```shell
+$ ruby play_lab_challenge.rb
+```
+### Run Rspec
+
+```shell
+$ bundle install
+$ bundle exec rspec
 ```
 
 ## Copyright
