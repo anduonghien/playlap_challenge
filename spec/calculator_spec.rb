@@ -19,7 +19,7 @@ describe Calculator do
         before :each do
           file = ReadFile.new "data/sample.log"
           file_content = file.read_file
-          convert = ConvertContent.new lines
+          convert = ConvertContent.new file_content
           @hash_data = convert.convert_to_hash
 
           @calcu = Calculator.new @hash_data
