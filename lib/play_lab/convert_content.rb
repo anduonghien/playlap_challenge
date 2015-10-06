@@ -1,7 +1,7 @@
 require_relative 'variable_template'
 
 class ConvertContent < VariableTemplate
-  attr_accessor :content
+  attr_reader :content
 
   def initialize content
     @content = content

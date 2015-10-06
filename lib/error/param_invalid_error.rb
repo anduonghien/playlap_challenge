@@ -1,0 +1,2 @@
+class ParamInvalidError < ::StandardError
+end

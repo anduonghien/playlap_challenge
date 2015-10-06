@@ -1,11 +1,9 @@
-require_relative 'read_file'
-require_relative 'convert_content'
-require_relative 'calculator'
+require_relative 'play_lab/helper'
 
 class PlayLabChallenge
   def self.run
-    file = ReadFile.new "data/sample.log"
-    file_content = file.read_file
+    file = PlayLab::FileLog.new "data/sample.log"
+    file_content = file.read
     # Get data has been type
     convert = ConvertContent.new file_content
     hash_data = convert.convert_to_hash
@@ -15,4 +13,5 @@ class PlayLabChallenge
   end
 end
 
-PlayLabChallenge.run
+# PlayLabChallenge.run
+PlayLab::FileLog.new ""
