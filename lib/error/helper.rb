@@ -1,0 +1,2 @@
+require_relative 'param_empty_error'
+require_relative 'param_type_error'
