@@ -11,7 +11,7 @@ $ cd playlap_challenge
 ### Run it
 
 ```shell
-$ ruby source/play_lab_challenge.rb
+$ ruby lib/play_lab_challenge.rb
 ```
 ### Run Rspec
 

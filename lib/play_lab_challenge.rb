@@ -5,13 +5,12 @@ class PlayLabChallenge
     file = PlayLab::FileLog.new "data/sample.log"
     file_content = file.read
     # Get data has been type
-    convert = ConvertContent.new file_content
-    hash_data = convert.convert_to_hash
+    content_log = PlayLab::ContentLog.new file_content
+    hash_data = content_log.convert_to_hash
     # Get result
-    calcu = Calculator.new hash_data
-    calcu.result
+    result = PlayLab::Result.new hash_data
+    result.show
   end
 end
 
-# PlayLabChallenge.run
-PlayLab::FileLog.new ""
+PlayLabChallenge.run

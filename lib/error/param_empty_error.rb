@@ -1,4 +1,4 @@
-require_relative 'param_invalid_error'
-
-class ParamEmptyError < ParamInvalidError
+module Error
+  class ParamEmptyError < ::StandardError
+  end
 end

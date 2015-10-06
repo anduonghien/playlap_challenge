@@ -6,7 +6,7 @@ module PlayLab
       unless path.to_s == ""
         @path = path.to_s
       else
-        raise ParamEmptyError
+        raise Error::ParamEmptyError
       end
     end
 
