@@ -4,6 +4,8 @@ module PlayLab
   class ContentLog < VariableTemplate
     attr_reader :content
 
+    # Public: initialize a new ContentLog.
+    # Raises Error::ParamEmptyError if context not be String or String empty
     def initialize content
       unless content.to_s == ""
         @content = content.to_s
@@ -12,6 +14,8 @@ module PlayLab
       end
     end
 
+    # Public: convert_to_hash from content log
+    # Returns a Hash with 6 key.
     def convert_to_hash
       count_pending_lines = []
       message_lines = []
@@ -49,6 +53,8 @@ module PlayLab
     end
 
     private
+    # Private: split content log via new line to array
+    # Returns a Array.
     def split_via_new_line
       @content.split("\n")
     end
