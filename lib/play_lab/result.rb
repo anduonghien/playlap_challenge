@@ -1,40 +1,55 @@
 module PlayLab
   class Result
     attr_reader :data
+    attr_reader :text_plain
 
     # Public: initialize a new Result.
+    # Init @text_plain with emplty
+    # add resutl to text_plain
     # Raises Error::ParamTypeError if data not be String or String empty
     def initialize data
       if data.kind_of?(Hash)
         @data = data
+        @text_plain = ""
       else
         raise Error::ParamTypeError
       end
     end
 
-    # Public: show a Result.
-    # Return nothing
-    # Print result to terminal
-    def show
-      puts "=====================PlayLab Chalenge====================="
-      puts "This is result after read file data/sample.log"
-      puts "\n"
+    # Public: add_result_to_text_palin 
+    # Return text_plain include all resutl
+    def add_result_to_text_palin
+      @text_plain << "=====================PlayLab Chalenge=====================\n"
+      @text_plain << "This is result after read file data/sample.log\n"
+      @text_plain << "It result saved at result.txt\n\n"
       @data.each do |title, data|
         calculator(title, data)
       end
-      puts "=====================AnDUONG====================="
+      @text_plain << "=====================AnDUONG====================="
+    end
+
+    # Public: write result to file result.txt and show it on terminal.
+    def write_file_and_show_terminal
+      add_result_to_text_palin
+      write_to_file
+      puts @text_plain
     end
 
     private
     # private print a Result.
     # Return nothing
     # Print result to terminal
-    def print(title, num_call = 0, time_average = 0, max_dyno = "Unknown")
-      puts "=====================#{title}====================="
-      puts "The number of times the URL was called: #{num_call}"
-      puts "The mean (average), median and mode of the response time (connect time + service time): #{time_average} ms"
-      puts "The 'dyno' that responded the most: #{max_dyno}"
-      puts "\n"
+    def add_one_result_to_text_plain(title, num_call = 0, time_average = 0, max_dyno = "Unknown")
+      @text_plain << "=====================#{title}=====================\n"
+      @text_plain << "The number of times the URL was called: #{num_call}\n"
+      @text_plain << "The mean (average), median and mode of the response time (connect time + service time): #{time_average} ms\n"
+      @text_plain << "The 'dyno' that responded the most: #{max_dyno}\n\n"
+    end
+
+    # Public: write result to result.txt 
+    # Return file
+    def write_to_file
+      File.open("result.txt", 'w') {|f| f.write(@text_plain)}
     end
 
     # private calculator a array line logs.
@@ -56,9 +71,9 @@ module PlayLab
             dyno_hash[dyno].nil? ? dyno_hash[dyno] = 1 : dyno_hash[dyno] += 1
           end
 
-          print(title, num_call, average_time(time_arr), max_dyno(dyno_hash))
+          add_one_result_to_text_plain(title, num_call, average_time(time_arr), max_dyno(dyno_hash))
         else
-          print(title)
+          add_one_result_to_text_plain(title)
         end
       else
         raise Error::ParamTypeError

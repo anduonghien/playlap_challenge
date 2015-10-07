@@ -124,70 +124,75 @@ describe PlayLab::Result do
     end
   end
 
-  describe "print" do
+  describe "add_one_result_to_text_plain" do
     let(:param) {{a_key: "a_value", b_key: "b_value"}}
     let(:result) {PlayLab::Result.new param}
 
     it "with 1 param" do
-      expect(result.send(:print, "abc")).to be_nil
+      expect(result.send(:add_one_result_to_text_plain, "abc")).to be_a(String)
     end
 
     it "with 2 param" do
-      expect(result.send(:print, "abc", 1)).to be_nil
+      expect(result.send(:add_one_result_to_text_plain, "abc", 1)).to be_a(String)
     end
 
     it "with 3 param" do
-      expect(result.send(:print, "abc", 1, 2)).to be_nil
+      expect(result.send(:add_one_result_to_text_plain, "abc", 1, 2)).to be_a(String)
     end
 
     it "with 4 param" do
-      expect{result.send(:print, "abc", 1, 2, 3, "dyno1")}.to raise_error ArgumentError
+      expect{result.send(:add_one_result_to_text_plain, "abc", 1, 2, 3, "dyno1")}.to raise_error ArgumentError
     end
   end
 
-  describe "calculator" do
+  describe "result sucessfully" do
     let(:file_log) { PlayLab::FileLog.new "data/sample.log" }
     let(:content_log) { PlayLab::ContentLog.new file_log }
     let(:hash_data) {content_log.convert_to_hash}
     let(:result) {PlayLab::Result.new hash_data}
 
-    context "invalid param" do
-      it "without params" do
-        expect{result.send(:calculator)}.to raise_error ArgumentError
+    context "calculator" do
+      context "invalid param" do
+        it "without params" do
+          expect{result.send(:calculator)}.to raise_error ArgumentError
+        end
+
+        it "with 1 params" do
+          expect{result.send(:calculator, "params 1")}.to raise_error ArgumentError
+        end
+
+        it "with 2 params, params 2 is string" do
+          expect{result.send(:calculator, "params 1", "params 2")}.to raise_error Error::ParamTypeError
+        end
+
+        it "with 2 params, params 2 is number" do
+          expect{result.send(:calculator, "params 1", 2)}.to raise_error Error::ParamTypeError
+        end
+
+        it "with 2 params, params 2 is hash" do
+          expect{result.send(:calculator, "params 1", {key_1: "key_1", key_2: "key_2"})}.to raise_error Error::ParamTypeError
+        end
+
+        it "with 3 params" do
+          expect{result.send(:calculator, "params 1", "params 2", "params 3")}.to raise_error ArgumentError
+        end
       end
 
-      it "with 1 params" do
-        expect{result.send(:calculator, "params 1")}.to raise_error ArgumentError
+      it "valid param" do
+        expect(result.send(:calculator, "params 1", hash_data.values[0])).to be_a(String)
       end
 
-      it "with 2 params, params 2 is string" do
-        expect{result.send(:calculator, "params 1", "params 2")}.to raise_error Error::ParamTypeError
+      it "write_file" do
+        expect(result.send(:write_to_file)).to eq 0
       end
 
-      it "with 2 params, params 2 is number" do
-        expect{result.send(:calculator, "params 1", 2)}.to raise_error Error::ParamTypeError
+      it "add result to text palin" do
+        expect(result.add_result_to_text_palin).to be_a(String)
       end
 
-      it "with 2 params, params 2 is hash" do
-        expect{result.send(:calculator, "params 1", {key_1: "key_1", key_2: "key_2"})}.to raise_error Error::ParamTypeError
-      end
-
-      it "with 3 params" do
-        expect{result.send(:calculator, "params 1", "params 2", "params 3")}.to raise_error ArgumentError
+      it  "write_file_and_show_terminal" do
+        expect(result.write_file_and_show_terminal).to be_nil
       end
     end
-
-    it "valid param" do
-      expect(result.send(:calculator, "params 1", hash_data.values[0])).to be_nil
-    end
-  end
-
-  it "show" do
-    file_log = PlayLab::FileLog.new "data/sample.log"
-    content_log = PlayLab::ContentLog.new file_log
-    hash_data = content_log.convert_to_hash
-    result = PlayLab::Result.new hash_data
-
-    expect(result.show).to be_nil
   end
 end
