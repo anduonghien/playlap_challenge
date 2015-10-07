@@ -1,6 +1,6 @@
 require_relative 'play_lab/helper'
 
-class PlayLabChallenge
+class RunMe
   def self.run
     file = PlayLab::FileLog.new "data/sample.log"
     file_content = file.read
@@ -9,8 +9,8 @@ class PlayLabChallenge
     hash_content_data = content_log.convert_to_hash
     # Get result
     result = PlayLab::Result.new hash_content_data
-    result.show
+    result.write_file_and_show_terminal
   end
 end
 
-PlayLabChallenge.run
+RunMe.run
